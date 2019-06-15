@@ -1,7 +1,7 @@
 version: "3"
 services:
   web:
-    image: friendlyhello:latest
+    image: vertxdocker:0.0.1
     deploy:
       replicas: 5
       resources:
@@ -11,8 +11,13 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "4000:80"
-    networks:
-      - webnet
-networks:
-  webnet:
+      - "4000:8888"
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    # No idea what restart does
+    environment:
+      MYSQL_ROOT_PASSWORD: example
