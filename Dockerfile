@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+# Do a single gradle wrapper initialise on build rather than mutlple on deploy (mutliple replicas)
+RUN ["./gradlew", "clean"]
+
 # Make port 80 available to the world outside this container
 EXPOSE 8888
 

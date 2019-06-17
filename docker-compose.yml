@@ -1,15 +1,15 @@
 version: "3"
 services:
   web:
-    image: vertxdocker:0.0.1
-    deploy:
-      replicas: 5
-      resources:
-        limits:
-          cpus: "0.1"
-          memory: 50M
-      restart_policy:
-        condition: on-failure
+    # If your have a build step the image and tag is optional. It will put it in local image repository if you do included
+    # image: vertxdocker:0.0.1
+    # Build the Dockerfile in the path below
+    build: .
+
+    # bind-mount the current directory on the local machine to the /app directory on the container.
+    # The container will now have access to the the latest code
+    volumes:
+      - './:/app'
     ports:
       - "4000:8888"
     depends_on:
@@ -17,7 +17,7 @@ services:
   mysql:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
+    # Still no idea what restart does
     restart: always
-    # No idea what restart does
     environment:
       MYSQL_ROOT_PASSWORD: example
